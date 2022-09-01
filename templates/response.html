@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube Scrapping</title>
+</head>
+<body style="min-width:2500px;">
+<div class="header" style="min-width:3000px; height:80px; border:Solid 2px; margin-left:50px;">
+    <h1 style="color:#03166c; padding-left:100px;">Youtube Channel: <span style="color:#ff0000">{{channel}}</span></h1>
+</div>
+
+<div class="main" style="float:left; margin-left:50px">
+    <div class="channel" style="display:inline;">
+        <div style="display:block; float:left; margin-top:10px;">
+        <form action="/" method="post" name="back">
+            <table align="center" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td><input type="submit" value="Search Again" style="padding:20px; background-color:#ff0000; color:white; border:none; border-radius:20px; width:150px"></td>
+                </tr>
+            </table>
+        </form>
+        </div>
+        <div style="display:block;float:left; margin-left:5px; margin-top:10px;">
+            <form action="/viewchannel" method="post" name="back">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel_id}}" hidden>
+                            <input type="submit" value="Browse Channel" style="padding:20px; background-color:#ff0000; color:white; border:none; width:150px; border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div style="display:inline; float:left; margin-top:10px; margin-left:5px">
+        <div style="display:inline">
+            <form action="/mangodb" method="post">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel}}" hidden>
+                            <input type="text" name="mangodata" value="{{DBdata}}" hidden>
+                            <input type="text" name="mango_id" placeholder="Enter MangoDB Client Link" style="width:200px; padding:19px">
+                            <input type="submit" value="Insert data into MangoDB" style="padding:20px; background-color:#ff0000; color:white; border:none; width:200px;border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div style="display:inline; float:left; margin-top:10px; margin-left:5px">
+        <div style="display:block">
+            <form action="/sql" method="post">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel}}" hidden>
+                            <input type="text" name="sqldata" value="{{DBdata}}" hidden>
+                            <input type="text" name="host" placeholder="Enter Mysql Host" style="width:200px; padding:19px">
+                            <input type="text" name="user" placeholder="Enter Mysql Username" style="width:200px; padding:19px">
+                            <input type="text" name="password" placeholder="Enter Mysql password" style="width:200px; padding:19px">
+                            <input type="text" name="db" placeholder="Enter Mysql Database Name" style="width:200px; padding:19px">
+                            <input type="submit" value="Insert data into MYSQLDB" style="padding:20px; background-color:#ff0000; color:white; border:none; width:200px;border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div style="display:inline; width:300px;">
+        <div style="display:block; float:left; margin-top:10px; margin-left:5px">
+            <form action="/excel" method="post">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel}}" hidden>
+                            <input type="text" name="sqldata" value="{{DBdata}}" hidden>
+                            <input type="text" name="host" placeholder="Enter Mysql Host" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="user" placeholder="Enter Mysql Username" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="password" placeholder="Enter Mysql password" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="db" placeholder="Enter Mysql Database Name" style="width:150px; padding:10px" hidden>
+                            <input type="submit" value="Save to Excel" style="padding:20px; background-color:#ff0000; color:white; border:none; width:150px;border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div style="display:block; float:left; margin-top:10px; margin-left:5px">
+            <form action="/csv" method="post">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel}}" hidden>
+                            <input type="text" name="sqldata" value="{{DBdata}}" hidden>
+                            <input type="text" name="host" placeholder="Enter Mysql Host" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="user" placeholder="Enter Mysql Username" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="password" placeholder="Enter Mysql password" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="db" placeholder="Enter Mysql Database Name" style="width:150px; padding:10px" hidden>
+                            <input type="submit" value="Save to CSV" style="padding:20px; background-color:#ff0000; color:white; border:none; width:150px; border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div style="display:block; float:left; margin-top:10px; margin-left:5px">
+            <form action="/html" method="post">
+                <table align="center" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>
+                            <input type="text" name="id" value="{{channel}}" hidden>
+                            <input type="text" name="sqldata" value="{{DBdata}}" hidden>
+                            <input type="text" name="host" placeholder="Enter Mysql Host" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="user" placeholder="Enter Mysql Username" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="password" placeholder="Enter Mysql password" style="width:150px; padding:10px" hidden>
+                            <input type="text" name="db" placeholder="Enter Mysql Database Name" style="width:150px; padding:10px" hidden>
+                            <input type="submit" value="Save to HTML" style="padding:20px; background-color:#ff0000; color:white; border:none; width:150px; border-radius:20px;">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div style="min-width:2500px; float:left; display:inline; margin-top:30px;">
+        <table border="1" cellpadding="0" cellspacing="0" align="center">
+            <tr style="background-color: #ff0000; color:white">
+                <th>Channel</th>
+                <th>Title</th>
+                <th>Video Link</th>
+                <th>Thumbnail</th>
+                <th>No of Likes</th>
+                <th>No of Comments</th>
+                <th>Comments</th>
+                <th>Comment Authers</th>
+                <th>Download Folder:<br><b>"C:/Users/Public/Downloads"</b></th>
+            </tr>
+
+            <tr style="background-color:#dcdcdc; color:#263127">
+                {% for x in link.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol>
+                    {% for i in x %}
+                        <li style="height:{{height}}px"><a>{{channel}}</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in title.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                        <li style="height:{{height}}px"><a>{{i}}</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in link.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                    <li style="height:{{height}}px"><a href="{{i}}" target="_blank">Watch Video</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in Thumb.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                     <ol style=" margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                    <li style="height:{{height}}px"><a href="{{i}}" target="_blank">View Thumbnail</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in LikeCount.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                    <li style="height:{{height}}px"><a>{{i}}</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in commentCount.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                    <li style="height:{{height}}px"><a>{{i}}</a></li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in comment.values() %}
+                <td style="text-align: left; vertical-align: Top;">
+                    <ol style="">
+                    {% for i in x %}
+                    <li style="height:{{height}}px">
+                        <a>
+                            <ol style="">
+                                {% for j in i %}
+                                <li>{{j}}</li>
+                                {% endfor %}
+                            </ol>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in comment_auther.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="">
+                    {% for i in x %}
+                    <li style="height:{{height}}px">
+                        <a>
+                            <ol style="">
+                                {% for j in i %}
+                                <li>{{j}}</li>
+                                {% endfor %}
+                            </ol>
+                        </a>
+                    </li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+
+                {% for x in id.values() %}
+                <td style="text-align: left; vertical-align: top;">
+                    <ol style="margin-top:5px; margin-bottom:5px">
+                    {% for i in x %}
+                    <li style="height:{{height}}px">
+                        <form action="/downloads" method="post">
+                            <input type="text" name="link" value="{{i}}" hidden>
+                            <input type="submit" value="Download" style="padding:10px; color:#32cd32; background-color:seagreen; color:white; border:none">
+                        </form>
+                    </li>
+                    {% endfor %}
+                    </ol>
+                </td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
