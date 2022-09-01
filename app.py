@@ -228,7 +228,7 @@ def toExcel():
         final_list.append(row)
     time.sleep(3)
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = Path.home() / f"Downloads{channel}.xlsx"
+    path = Path.home() / f"Downloads/{channel}.xlsx"
     df.to_excel(path)
     return f"Excel saved at {path}"
 
@@ -264,7 +264,7 @@ def toCSV():
     time.sleep(3)
 
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = Path.home() / f"Downloads{channel}.csv"
+    path = Path.home() / f"Downloads/{channel}.csv"
     df.to_csv(path)
     return f"CSV saved at {path}"
 
@@ -300,7 +300,7 @@ def toPDF():
     time.sleep(3)
 
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = Path.home() / f"Downloads{channel}.html"
+    path = Path.home() / f"Downloads/{channel}.html"
     df.to_html(path)
     return f"HTML File saved at {path}"
 
@@ -313,7 +313,7 @@ def downloadVideo():
     youTube = pytube.YouTube(video_link)
     stream = youTube.streams.get_highest_resolution()
     stream.download(SAVE_PATH)
-    return
+    return stream.download(SAVE_PATH)
 
 if __name__=='__main__':
     app.run()
