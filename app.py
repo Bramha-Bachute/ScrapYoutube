@@ -3,7 +3,7 @@ import pandas as pd
 from flask import Flask, jsonify, request
 from flask import render_template
 import requests
-from selenium import webdriver
+from pathlib import Path
 from googleapiclient.discovery import build
 import scrapetube
 import pytube
@@ -30,17 +30,17 @@ def get_channel_id(Youtube, channel, API_KEY):
     yc_id = channels_response['items'][0]['id']
     return yc_id
 
-@app.route('/viewchannel', methods=['POST', 'GET'])
-@cross_origin()
-def Browse_channel_videos():
-    channel_id = request.form.get("id")
-    # path = "C:/Users/bramb/Downloads/chromedriver"
-    path = "C:/Users/bramb/PycharmProjects/YoutubeScrapping/chromedriver.exe"
-    url = f"https://www.youtube.com/channel/{channel_id}/videos"
-    driver = webdriver.Chrome(path)
-    driver.get(url)
-    time.sleep(300)
-    return "Time Over Please, you can browse for 5 minutes only"
+# @app.route('/viewchannel', methods=['POST', 'GET'])
+# @cross_origin()
+# def Browse_channel_videos():
+#     channel_id = request.form.get("id")
+#     # path = "C:/Users/bramb/Downloads/chromedriver"
+#     path = "C:/Users/bramb/PycharmProjects/YoutubeScrapping/chromedriver.exe"
+#     url = f"https://www.youtube.com/channel/{channel_id}/videos"
+#     driver = webdriver.Chrome(path)
+#     driver.get(url)
+#     time.sleep(300)
+#     return "Time Over Please, you can browse for 5 minutes only"
 
 def get_all_video_ids(channel_id, max_result):
     videos = scrapetube.get_channel(f"{channel_id}")
@@ -95,6 +95,7 @@ def response():
     # API_KEY = f"{key}"
     Youtube = build('youtube', 'v3', developerKey=key)
     channel_id = get_channel_id(Youtube, channel, key)
+    channel_link = f"https://www.youtube.com/channel/{channel_id}/videos"
     video_id = get_all_video_ids(channel_id, max_result)
     Video_links = get_video_link(video_id)
     data = get_video_details(Youtube, video_id, max_comments)
@@ -124,7 +125,7 @@ def response():
         elif i==5:
             comment_auther = data[i]
             DBdata.update(comment_auther)
-    return render_template('response.html', link = link, title=title, Thumb= Thumb, LikeCount = LikeCount, commentCount=commentCount, comment=comment, comment_auther=comment_auther, channel=channel, id=vid, channel_id=channel_id, height=height, DBdata = json.dumps(DBdata))
+    return render_template('response.html', link = link, title=title, Thumb= Thumb, LikeCount = LikeCount, commentCount=commentCount, comment=comment, comment_auther=comment_auther, channel=channel, id=vid, channel_id=channel_id, height=height, DBdata = json.dumps(DBdata), channel_link = channel_link)
 
 @app.route('/mangodb', methods=['POST','GET'])
 @cross_origin()
@@ -227,7 +228,7 @@ def toExcel():
         final_list.append(row)
     time.sleep(3)
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = f"C:/Users/Public/Downloads/{channel}"+".xlsx"
+    path = Path.home() / f"Downloads{channel}.xlsx"
     df.to_excel(path)
     return f"Excel saved at {path}"
 
@@ -263,7 +264,7 @@ def toCSV():
     time.sleep(3)
 
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = f"C:/Users/Public/Downloads/{channel}"+".csv"
+    path = Path.home() / f"Downloads{channel}.csv"
     df.to_csv(path)
     return f"CSV saved at {path}"
 
@@ -299,7 +300,7 @@ def toPDF():
     time.sleep(3)
 
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
-    path = f"C:/Users/Public/Downloads/{channel}"+".html"
+    path = Path.home() / f"Downloads{channel}.html"
     df.to_html(path)
     return f"HTML File saved at {path}"
 
@@ -308,12 +309,11 @@ def toPDF():
 def downloadVideo():
     link = request.form.get("link")
     video_link = f"https://www.youtube.com/watch?v={link}"
-    SAVE_PATH = r"C:/Users/Public/Downloads"
+    SAVE_PATH = Path.home() / "Downloads"
     youTube = pytube.YouTube(video_link)
     stream = youTube.streams.get_highest_resolution()
     stream.download(SAVE_PATH)
-    return "Video Downloaded"
+    return
 
 if __name__=='__main__':
-    app.debug = True
     app.run()
