@@ -15,15 +15,12 @@ from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 
-API_KEY = "AIzaSyDqyEQIKUTf2mx-JqQ5WjJR-XIkJnnnsS0"
-Youtube = build('youtube', 'v3', developerKey=API_KEY)
-
 @app.route("/", methods=['POST','GET'])
 @cross_origin()
 def index():
     return render_template('index.html')
 
-def get_channel_id(Youtube, channel):
+def get_channel_id(Youtube, channel, API_KEY):
     channel_id = requests.get(
         f'https://www.googleapis.com/youtube/v3/search?part=id&q={channel}&type=channel&key={API_KEY}').json()[
         'items'][0]['id']['channelId']
@@ -94,8 +91,10 @@ def response():
     max_result = int(request.form.get("record"))
     max_comments = int(request.form.get("comments"))
     height = (max_comments*30)+20
-    #key = request.form.get("key")
-    channel_id = get_channel_id(Youtube, channel)
+    key = request.form.get("key")
+    # API_KEY = f"{key}"
+    Youtube = build('youtube', 'v3', developerKey=key)
+    channel_id = get_channel_id(Youtube, channel, key)
     video_id = get_all_video_ids(channel_id, max_result)
     Video_links = get_video_link(video_id)
     data = get_video_details(Youtube, video_id, max_comments)
