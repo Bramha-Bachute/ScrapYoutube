@@ -215,7 +215,7 @@ def Insertsql():
     cursor = conn.cursor()
     cursor.execute("""CREATE DATABASE IF NOT EXISTS Youtube""")
     cursor.execute(f"""use {DB}""")
-    cursor.execute(f"""CREATE Table IF NOT EXISTS {channel}(Channel_ID varchar(100),Video_ID varchar(100),Video_Link varchar(100), Title Varchar(500), Thumbnail_Link varchar(200), Like_Count varchar(100), Comment_Count varchar(100), Comments varchar(5000), Comment_Auther varchar(2000))""")
+    cursor.execute(f"""CREATE Table IF NOT EXISTS {channel} (Channel_ID varchar(100),Video_ID varchar(100),Video_Link varchar(100), Title Varchar(1000), Thumbnail_Link varchar(200), Like_Count varchar(20), Comment_Count varchar(20), Comments varchar(5000), Comment_Auther varchar(5000))""")
     try:
         cursor.execute(f"""truncate {channel}""")
     except:
@@ -237,14 +237,14 @@ def Insertsql():
     for i in data_list:
         row = []
         for j in i:
-            if type(j)==list:
-                s = "___".join(map(str,j))
+            if type(j) == list:
+                s = "___".join(map(str, j))
                 row.append(s)
             else:
                 row.append(j)
         final_list.append(row)
     for i in final_list:
-        cursor.execute(f"""Insert into {channel} values("{i[0]}","{i[1]}","{i[2]}","{i[3]}","{i[4]}","{i[5]}","{i[6]}","{i[7]}","{i[8]}")""")
+        cursor.execute(f"""Insert into {channel} values("{i[0]}","{i[1]}","{i[2]}","{i[3]}","{i[4]}","{i[5]}","{i[6]}","{i[7].replace('"','')}","{i[8]}")""")
         conn.commit()
     time.sleep(3)
     df = pd.DataFrame(final_list, columns=("Channel_ID ","Video_ID ","Video_Link "," Title "," Thumbnail_Link "," Like_Count "," Comment_Count "," Comments "," Comment_Auther "))
